@@ -1,5 +1,5 @@
 // Authors:
-// Alec Defederico
+// Alec Difederico
 // Caroline Teicher
 // Omkar Brahme
 // Robby Marver
