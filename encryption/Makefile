@@ -22,4 +22,4 @@ wrapper.o: wrapper.c encrypt.h
 
 # Clean the repo.
 clean:
-	rm -rf decrypt *.o
+	rm -rf decrypt *.o *~
