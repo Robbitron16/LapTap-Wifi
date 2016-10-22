@@ -3,7 +3,7 @@
 // Caroline Teicher
 // Omkar Brahme
 // Robby Marver
-// Encryption file
+// RSA file
 //
 // HackHarvard 2016
 
