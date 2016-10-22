@@ -14,19 +14,38 @@
 #include <stdio.h>  // for printf
 #include "./encrypt.h"  // for function decs
 
-uint64_t encrypt(char *data) {
+int64_t encrypt(char *data) {
   assert(data != NULL);
-  size_t i = 0;
-  uint64_t res = 0;
-  for (i = 0; i < strlen(data); i += 8) {
-    res += *((uint64_t*)data + i);
+  size_t i, ogLen, addSize;
+  int64_t res = 0;
+  char minires[8];
+  ogLen = strlen(data);
+  addSize = ogLen / 8 + (ogLen % 8 == 0 ? 0 : 1);
+  int64_t resAdd[addSize];
+  // mod issue here with adding 8, if not 8 byte aligned, need to make 8 byte aligned.
+  // with null terminating char.
+  while (ogLen > 0) {
+    size_t bound = 8 > ogLen ? ogLen : 8;
+    for (i = 0; i < bound; i++) {
+      minires[i] = data[i];
+    }
+    for (i = bound; i < 8; i++) {
+      minires[i] = '\0';
+    }
+    for (i = 0; i < 8; i++) {
+      printf("%x ", minires[i] & 0xff);
+    }
+    resAdd[ogLen / 8] = *((int64_t*)minires);
+    ogLen -= bound;
   }
-  printf("%lu\n", res);
+  for (i = 0; i < addSize; i++)
+    res += resAdd[i];
+  printf("\n%lld\n", res);
   // TODO: RSA sthuff
   return res;
 }
 
-char* decrypt(uint64_t encrypted) {
+char* decrypt(int64_t encrypted) {
   // TODO: RSA sthuff
   // Then malloc the decrypted char *.
   // Copy and then return that.
@@ -39,14 +58,29 @@ char* decrypt(uint64_t encrypted) {
   // and then subtract the long value of those first 8 bytes from the total.
 
 
-  size_t i;
+  size_t i, ogLen;
   char* res = (char*)&encrypted;
+  ogLen = strlen(res);
+  printf("\nLength is: %d\n", (int)(ogLen));
   printf("String: ");
-  for (i = 0; i < strlen(res); i += 8) {
-    char* minires = ((char *)(&encrypted) + i);
-    printf("%s", minires);
+  char minires[8];
+  while (ogLen > 0) {
+    // Read 8 bytes at a time.
+    size_t bound = 8 > ogLen ? ogLen : 8;
+    for (i = 0; i < bound; i++) {
+      minires[i] = res[i];
+    }
+    for (i = bound; i < 8; i++) {
+      minires[i] = '\0';
+    }
+    for (i = 0; i < 8; i++) {
+      printf("%x ", minires[i] & 0xff);
+    }
+    ogLen -= bound;
+    encrypted -= *((int64_t*)minires);
+    res = (char*)&encrypted;
   }
-  printf("\nLength is: %d\n", (int)strlen(res));
+  printf("\nEncrypted val: %lld\n", encrypted);
   return NULL;
 }
 

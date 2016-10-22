@@ -18,7 +18,7 @@
 int main(int argc, char** argv) {
   assert(argc == NUM_ARGS);
   // uint64_t encrypted = atol(argv[1]);
-  uint64_t encrypted = encrypt(argv[1]);
+  int64_t encrypted = encrypt(argv[1]);
   char *result = decrypt(encrypted);
   if (result != NULL) {
     printf("%s\n", result);
