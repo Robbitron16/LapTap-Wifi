@@ -1,11 +1,11 @@
-// Authors:
-// Alec Difederico
-// Caroline Teicher
-// Omkar Brahme
-// Robby Marver
-// RSA file
-//
-// HackHarvard 2016
+# Authors:
+# Alec Difederico
+# Caroline Teicher
+# Omkar Brahme
+# Robby Marver
+# RSA file
+#
+# HackHarvard 2016
 
 import math
 from random import randint
@@ -13,9 +13,7 @@ from prime_number_check import is_prime
 from euclidean_algorithm import run_euclidean_algorithm
 from modular_inverse import multiplicative_inverse
 
-D = 0
-N = 0
-
+ 
 def encrypt_message(message):
     print message
     #return a 10 digit number
@@ -28,14 +26,14 @@ def encrypt_message(message):
 
     # find prime number p
     while not stop_for_p:
-        p = randint(2, 99999)
+        p = randint(86000, 99999)
 
         if is_prime(p):
             stop_for_p = True
 
     # find prime number q
     while not stop_for_q:
-        q = randint(2, 99999)
+        q = randint(86000, 100001)
 
         if is_prime(q):
             stop_for_q = True
@@ -43,7 +41,6 @@ def encrypt_message(message):
     # compute n = p x q
 
     n = (p * q)
-    N=n
     n_minus_one = ((p - 1) * (q - 1))
 
     # find e that is relatively prime to ((p - 1) * (q - 1))
@@ -57,7 +54,6 @@ def encrypt_message(message):
     # find d, so that d * e mod ((p - 1) * (q - 1)) = 1
 
     d = multiplicative_inverse(e, n_minus_one)
-    D = d
     encrypted_message = pow(message, e, n)
 
     print("public key:  e = " + str(e) + ", n = " + str(n))
@@ -65,7 +61,10 @@ def encrypt_message(message):
 
     encrypted_message = str(encrypted_message).zfill(10)
 
-    return (encrypted_message, str(d), str(n))
+    return (str(encrypted_message), d, n)
+
+encryptedValue, D, N = encrypt_message(7277827448)
+mapping = {str(5708410): encryptedValue}
 
 
 # public key gives encrypted message, d, and n
@@ -73,7 +72,7 @@ def encrypt_message(message):
 def decrypt_message(encrypted_message, d, n):
     # return the original message
 
-    decrypted_message = pow(int(encrypted_message[0]), d, n)
+    decrypted_message = pow(int(encrypted_message), d, n)
 
     return decrypted_message - 1
 
