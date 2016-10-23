@@ -10,7 +10,7 @@
 #include <stdlib.h>  // for atol()
 #include <stdint.h>  // for uint64_t
 #include <assert.h>  // for assert
-#include "./encrypt.h"  // for function decs
+#include "./compression.h" // for compression functions.
 
 #define NUM_ARGS 2
 
@@ -18,10 +18,9 @@
 int main(int argc, char** argv) {
   assert(argc == NUM_ARGS);
   // uint64_t encrypted = atol(argv[1]);
-  int64_t encrypted = encrypt(argv[1]);
-  char *result = decrypt(encrypted);
-  if (result != NULL) {
-    printf("%s\n", result);
-  }
+  char out[strlen(argv[1])]; int outlen = strlen(argv[1]);
+  int res = smaz_compress(argv[1], outlen, out, outlen);
+  printf("Original: %d, New: %d\n", outlen, res);
+  printf("%s\n", out);
   return EXIT_SUCCESS;
 }
