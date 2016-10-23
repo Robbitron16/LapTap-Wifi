@@ -10,15 +10,17 @@
 CC = gcc -Wall -g -std=c11
 
 # Main target, the decrypt function.
-all: compression.o wrapper.o
-	$(CC) -o decrypt wrapper.o compression.o
+all: compression.o wrapper.o dwrapper.o
+	$(CC) -o encryptC wrapper.o compression.o
+	$(CC) -o decryptC dwrapper.o compression.o
 
 # Individual source files.
-encrypt.o: encrypt.c encrypt.h
-	$(CC) -c encrypt.c
 
-wrapper.o: wrapper.c encrypt.h
+wrapper.o: wrapper.c compression.h
 	$(CC) -c wrapper.c
+
+dwrapper.o: dwrapper.c compression.h
+	$(CC) -c dwrapper.c
 
 compression.o: compression.c compression.h
 	$(CC) -c compression.c

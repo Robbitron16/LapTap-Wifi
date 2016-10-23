@@ -16,10 +16,13 @@
 
 // Wrapper that just runs decrypt given a cmd line argument.
 int main(int argc, char** argv) {
-  assert(argc == NUM_ARGS);
+  //assert(argc == NUM_ARGS);
   // uint64_t encrypted = atol(argv[1]);
-  char out[strlen(argv[1])]; int outlen = strlen(argv[1]);
-  int res = smaz_compress(argv[1], outlen, out, outlen);
+  printf("%s\n", argv[1]);
+  char out[4096];
+  char d[4096];
+  int outlen = strlen(argv[1]);
+  int res = smaz_decompress(argv[1], 30, out, sizeof(out));
   printf("%s\n", out);
   return EXIT_SUCCESS;
 }

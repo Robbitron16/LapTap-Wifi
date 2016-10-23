@@ -15,7 +15,6 @@ from modular_inverse import multiplicative_inverse
 
  
 def encrypt_message(message):
-    print message
     #return a 10 digit number
     stop_for_p = False
     stop_for_q = False
@@ -56,8 +55,6 @@ def encrypt_message(message):
     d = multiplicative_inverse(e, n_minus_one)
     encrypted_message = pow(message, e, n)
 
-    print("public key:  e = " + str(e) + ", n = " + str(n))
-    print("private key: d = " + str(d) + ", n = " + str(n))
 
     encrypted_message = str(encrypted_message).zfill(10)
 

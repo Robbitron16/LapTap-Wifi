@@ -12,12 +12,9 @@ import sys
 from ast import literal_eval as make_tuple
 
 def getWord(sum, D, N):
-    print sum
-    print D
-    print N
     final = RSA.decrypt_message(sum,D,N)
     #final *= 4259870
-    print final
+    print str(final) + " " + ',?AMPU\\\_'
 getWord(RSA.mapping[str(5708410)], RSA.D, RSA.N)
 
 # print sys.argv[1][0], sys.argv[1][1], sys.argv[1][2]
